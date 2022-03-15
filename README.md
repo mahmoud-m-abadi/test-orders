@@ -1,3 +1,6 @@
+## Note
+**For Database data I used 2 attached files (foods.json && ingredients.json) <br />
+So you will see your sample foods and ingredients in results.**
 
 ## Installation
 
