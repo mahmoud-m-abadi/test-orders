@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use App\Interfaces\Traits\HasStockInterface;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 trait HasStockTrait
 {

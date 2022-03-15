@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Interfaces\Repositories\FoodRepositoryInterface;
 use App\Interfaces\Repositories\IngredientRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;

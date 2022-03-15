@@ -18,4 +18,17 @@ interface FoodRepositoryInterface
      * @return array|FoodInterface
      */
     public function store(array $data): array|FoodInterface;
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function find(int $id): FoodInterface;
+
+    /**
+     * @param FoodInterface $food
+     * @param int $count
+     * @return mixed
+     */
+    public function foodIsOrdered(FoodInterface $food, int $count = 1): FoodInterface;
 }

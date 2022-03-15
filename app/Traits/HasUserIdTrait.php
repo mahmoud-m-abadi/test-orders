@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-use App\Models\Users\User;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 trait HasUserIdTrait
 {

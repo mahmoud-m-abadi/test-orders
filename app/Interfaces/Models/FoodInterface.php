@@ -5,7 +5,7 @@ namespace App\Interfaces\Models;
 use App\Interfaces\Traits\HasIdInterface;
 use App\Interfaces\Traits\HasTitleInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 interface FoodInterface extends
     HasIdInterface,

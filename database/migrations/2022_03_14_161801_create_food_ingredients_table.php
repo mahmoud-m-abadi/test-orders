@@ -21,6 +21,11 @@ return new class extends Migration
 
             $table->foreignId('ingredient_id')
                 ->constrained(IngredientInterface::TABLE);
+
+            $table->index([
+                'food_id',
+                'ingredient_id',
+            ]);
         });
     }
 

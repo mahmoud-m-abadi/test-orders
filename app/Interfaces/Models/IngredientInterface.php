@@ -7,6 +7,7 @@ use App\Interfaces\Traits\HasExpiresAtInterface;
 use App\Interfaces\Traits\HasIdInterface;
 use App\Interfaces\Traits\HasStockInterface;
 use App\Interfaces\Traits\HasTitleInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 interface IngredientInterface extends
@@ -36,4 +37,10 @@ interface IngredientInterface extends
      * @return BelongsToMany
      */
     public function foods(): BelongsToMany;
+
+    /**
+     * @param Builder $builder
+     * @return Builder
+     */
+    public function scopeHasActiveIngredients(Builder $builder): Builder;
 }

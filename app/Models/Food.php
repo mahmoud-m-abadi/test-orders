@@ -8,7 +8,8 @@ use App\Traits\HasTitleTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class Food extends BaseModel implements FoodInterface
 {
@@ -48,7 +49,15 @@ class Food extends BaseModel implements FoodInterface
      */
     public function scopeSortByBestBeforeBeEnd(Builder $builder): Builder
     {
-        // TODO: Make a sub query to select ids for putting in sort by
-        return $builder;
+        $nowDate = now()->format("Y-m-d");
+        return $builder->orderByRaw(
+            "CASE WHEN (SELECT count(food_ingredients.food_id)
+                 from ingredients
+                     join food_ingredients on ingredients.id = food_ingredients.ingredient_id
+                 where foods.id = food_ingredients.food_id
+                   and DATE(ingredients.expires_at) >= Date('$nowDate')
+                   and DATE(ingredients.best_before) <= Date('$nowDate')
+                ) THEN 1 ELSE 0 END"
+        );
     }
 }

@@ -6,7 +6,9 @@ use App\Interfaces\Models\FoodInterface;
 use App\Interfaces\Repositories\FoodRepositoryInterface;
 use App\Interfaces\Repositories\IngredientRepositoryInterface;
 use App\Models\Food;
+use App\Models\Ingredient;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -29,8 +31,7 @@ class FoodRepository implements FoodRepositoryInterface
             ->with('ingredients')
             ->whereHas(
                 'ingredients',
-                fn(BelongsToMany $ingredients) => $ingredients->whereHasStock()
-                    ->whereIsNotExpired()
+                fn($ingredients) => $ingredients->hasActiveIngredients()
             )
             ->sortByBestBeforeBeEnd()
             ->paginate();
@@ -62,6 +63,33 @@ class FoodRepository implements FoodRepositoryInterface
             ];
         }
         DB::commit();
+
+        return $food;
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function find(int $id): FoodInterface
+    {
+        return Food::whereId($id)->first();
+    }
+
+    /**
+     * @param FoodInterface $food
+     * @param int $count
+     * @return FoodInterface
+     */
+    public function foodIsOrdered(
+        FoodInterface $food,
+        int $count = 1
+    ): FoodInterface
+    {
+        $ingredients = $food->ingredients;
+        foreach ($ingredients as $ingredient) {
+            $this->ingredientRepository->decreaseStock($ingredient, $count);
+        }
 
         return $food;
     }

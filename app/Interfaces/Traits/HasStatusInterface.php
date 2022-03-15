@@ -37,7 +37,7 @@ interface HasStatusInterface
     /**
      * @param integer|string $statusValue Status Value.
      *
-     * @return mixed
+     * @return HasStatusInterface
      */
-    public function setStatusValue(int|string $statusValue): mixed;
+    public function setStatusValue(int|string $statusValue): HasStatusInterface;
 }

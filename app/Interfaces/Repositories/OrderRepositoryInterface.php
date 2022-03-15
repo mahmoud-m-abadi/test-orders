@@ -18,5 +18,5 @@ interface OrderRepositoryInterface
      *
      * @return OrderInterface
      */
-    public function store(array $data): OrderInterface;
+    public function store(array $data): array|OrderInterface;
 }

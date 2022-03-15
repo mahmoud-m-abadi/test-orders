@@ -2,7 +2,7 @@
 
 namespace App\Interfaces\Traits;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 interface HasStockInterface
 {

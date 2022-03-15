@@ -19,15 +19,17 @@ return new class extends Migration
 
             $table->string(IngredientInterface::TITLE)
                 ->index();
-            $table->date(IngredientInterface::BEST_BEFORE);
-            $table->date(IngredientInterface::EXPIRES_AT)
-                ->index();
-            $table->integer(IngredientInterface::STOCK)
-                ->index()
-                ->default(1);
+            $table->date(IngredientInterface::BEST_BEFORE)->index();
+            $table->date(IngredientInterface::EXPIRES_AT);
+            $table->integer(IngredientInterface::STOCK)->default(1);
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index([
+                IngredientInterface::EXPIRES_AT,
+                IngredientInterface::STOCK
+            ]);
         });
     }
 

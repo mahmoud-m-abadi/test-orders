@@ -21,4 +21,23 @@ interface OrderInterface extends
 
 {
     const TABLE = "orders";
+
+    /**
+     * @param UserInterface $user
+     * @param FoodInterface $food
+     * @param float|int $price
+     * @param int $count
+     * @param float|int $totalPrice
+     * @param bool $status
+     *
+     * @return OrderInterface
+     */
+    public static function createObject(
+        UserInterface $user,
+        FoodInterface $food,
+        float|int $price,
+        int $count,
+        float|int $totalPrice,
+        bool $status = true
+    ): OrderInterface;
 }
