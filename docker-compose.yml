@@ -1,0 +1,74 @@
+version: '3.3'
+
+services:
+  php_order:
+    container_name: order_php
+    build:
+      context: ./php
+    restart: always
+    volumes:
+      - ./source:/home/app/order:Z
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ./php/php.ini-production:/usr/local/etc/php/php.ini-production
+      - ./php/php.ini-development:/usr/local/etc/php/php.ini-development
+    links:
+      - mysql_order
+#    ports:
+#      - 127.0.0.1:9000:9000
+#      - 127.0.0.1:6001:6001
+
+  nginx_order:
+    container_name: order_nginx
+    build:
+      context: ./nginx
+    restart: always
+    volumes:
+      - ./source:/home/app/order
+    links:
+      - php_order
+    ports:
+      - 127.0.0.1:82:80
+  #    - 443:443
+
+  sqlite3:
+    container_name: order_sqlite
+    image: nouchka/sqlite3:latest
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./source:/home/app/order/database
+
+  mysql_order:
+    image: mariadb:10.6
+    restart: always
+    container_name: order_mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+#      - ./db-init:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=order
+      - MYSQL_USER=homestead
+      - MYSQL_PASSWORD=secret
+    ports:
+      - 127.0.0.1:3309:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: order_phpmyadmin
+    restart: always
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql_order
+      - PMA_PORT=3306
+    ports:
+      - 127.0.0.1:83:80
+    volumes:
+      - /sessions
+    links:
+      - mysql_order
+
+volumes:
+  pgsqldata:
+  composer-cache:
